@@ -4,7 +4,7 @@ import pygame.freetype
 import numpy as np
 
 
-# человек с начальной координатой левого нижнего угла (x0, y0) и высотой h
+# человек с начальной координатой левого нижнего угла (x, y) и высотой h (координаты нормальные, а не сверху вниз!)
 def draw_GORSHOK_JIIIIV(x, y, h):
     # футболка
     circle(screen, orange, (round(x + 500 * h / 800), screen_height - y), round(250 * h / 800))
@@ -102,15 +102,20 @@ green = (124, 252, 0)
 skin = (255, 219, 172)
 
 FPS = 30
-screen_height = 800
-screen_width = 1000
+screen_height = 700
+screen_width = 1500
 screen = pygame.display.set_mode((screen_width, screen_height))
 screen.fill(white)
 
+x0, y0 = 680, 0
+draw_GORSHOK_JIIIIV(x0, y0, 650)
 x0, y0 = 0, 0
-draw_GORSHOK_JIIIIV(x0, y0, 800)
+blue = (175, 225, 175)
+purple = (255, 234, 0)
+orange = (79, 121, 66)
+draw_GORSHOK_JIIIIV(x0, y0, 650)
 x0, y0 = 0, 800
-draw_poster(x0, y0, 1000, 100, 'PYTHON is AMAZING', 0)
+draw_poster(x0, y0, 1500, 100, 'PYTHON is REALLY AMAZING', 50)
 
 
 pygame.display.update()
