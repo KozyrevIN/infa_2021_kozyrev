@@ -1,9 +1,7 @@
 import pygame
 from pygame.draw import *
 from pygame.mixer import *
-import random
 from random import randint
-import numpy as np
 
 # Colours
 RED = (255, 0, 0)
