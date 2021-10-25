@@ -184,7 +184,7 @@ finished = False
 # Font and game time settings
 Font = pygame.font.SysFont('Comic Sans', 60)
 Font_big = pygame.font.SysFont('Comic Sans', 250)
-play_time = 60
+play_time = 20
 num_balls = 30
 
 # Starter game values
