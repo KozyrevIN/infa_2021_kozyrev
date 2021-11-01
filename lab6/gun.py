@@ -1,4 +1,5 @@
 import math
+import random
 from random import *
 import pygame
 
@@ -21,7 +22,7 @@ HEIGHT = 600
 
 
 class Ball:
-    def __init__(self, screen: pygame.Surface, x=40, y=450):
+    def __init__(self, screen: pygame.Surface, x, y):
         """ Конструктор класса ball
 
         Args:
@@ -85,7 +86,9 @@ class Gun:
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
-        self.color = GREY
+        self.picture = syringes[0]
+        self.x = 0
+        self.y = 550
 
     def fire2_start(self, event):
         self.f2_on = 1
@@ -98,9 +101,9 @@ class Gun:
         """
         global balls, bullet
         bullet += 1
-        new_ball = Ball(self.screen)
+        new_ball = Ball(self.screen, self.x, self.y)
         new_ball.r += 5
-        self.an = math.atan2((event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
+        self.an = math.atan2((event.pos[1]-self.y), (event.pos[0]-self.x))
         new_ball.vx = self.f2_power * math.cos(self.an)
         new_ball.vy = - self.f2_power * math.sin(self.an)
         balls.append(new_ball)
@@ -110,15 +113,17 @@ class Gun:
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
         if event:
-            self.an = math.atan2((event.pos[1]-450), (event.pos[0]-20))
+            self.an = math.atan2((event.pos[1]-self.y), (event.pos[0]-self.x))
         if self.f2_on:
-            self.color = RED
+            self.picture = syringes[1]
         else:
-            self.color = GREY
+            self.picture = syringes[0]
 
     def draw(self):
-        pygame.draw.line(self.screen, self.color, (40, 450),
-                         (40 + self.f2_power * math.cos(self.an), 450 + self.f2_power * math.sin(self.an)), width=20)
+        syringe_cur = pygame.transform.scale(self.picture, (int(40 + 2*self.f2_power), 100))
+        screen.blit(syringe_cur, (int(self.x), int(self.y)))
+        #pygame.draw.line(self.screen, self.color, (40, 450),
+                         #(40 + self.f2_power * math.cos(self.an), 450 + self.f2_power * math.sin(self.an)), width=20)
 
     def power_up(self):
         if self.f2_on:
@@ -141,6 +146,7 @@ class Target:
         self.r = randint(10, 50)
         self.color = RED
         self.screen = screen
+        self.picture = choice(viruses)
 
     def move(self):
         if randint(0, 30) == 1:
@@ -167,9 +173,11 @@ class Target:
         self.r = randint(10, 50)
         self.color = RED
         self.screen = screen
+        self.picture = choice(viruses)
 
     def draw(self):
-        pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
+        virus_cur = pygame.transform.scale(self.picture, (int(2 * self.r), int(2 * self.r)))
+        screen.blit(virus_cur, (int(self.x - self.r), int(self.y - self.r)))
 
     def hit(self):
         global points
@@ -186,6 +194,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 points = 0
 balls = []
+
+viruses = [pygame.image.load('files/pictures/virus_1.png'), pygame.image.load('files/pictures/virus_2.png')]
+syringes = [pygame.image.load('files/pictures/syringe_normal.png'), pygame.image.load('files/pictures/syringe_red.png')]
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
