@@ -270,7 +270,7 @@ sound_syringe = Sound('files/Sounds/syringe.wav')
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-number_of_targets = 200
+number_of_targets = 2
 targets = [Target() for i in range(number_of_targets)]
 finished = False
 
